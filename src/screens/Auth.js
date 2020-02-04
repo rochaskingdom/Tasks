@@ -15,8 +15,11 @@ import commonStyles from '../commonStyles'
 export default class Auth extends Component {
 
     state = {
+        name: '',
         email: '',
-        password: ''
+        password: '',
+        confirmedPassword: '',
+        stageNew: true
     }
 
     render() {
@@ -25,15 +28,31 @@ export default class Auth extends Component {
                 style={styles.background}>
                 <Text style={styles.title}>Tasks</Text>
                 <View style={styles.formContainer}>
+                    <Text style={styles.subTitle}>
+                        {this.state.stageNew ? 'Crie a sua conta' : 'Informe seus dados'}
+                    </Text>
+                    {this.state.stageNew && 
+                        <TextInput placeholder='Nome' value={this.state.name}
+                        style={styles.input} 
+                        onChangeText={name => this.setState({ name })} />
+                    }
                     <TextInput placeholder='E-mail' value={this.state.email}
                         style={styles.input} 
                         onChangeText={email => this.setState({ email })} />
                     <TextInput placeholder='Senha' value={this.state.password}
-                        style={styles.input} 
+                        style={styles.input}  secureTextEntry={true}
                         onChangeText={password => this.setState({ password })} />
+                    {this.state.stageNew &&
+                        <TextInput placeholder='Confirmação de Senha' 
+                        value={this.state.confirmedPassword}
+                        style={styles.input}  secureTextEntry={true}
+                        onChangeText={confirmedPassword => this.setState({ confirmedPassword })} />
+                    }
                     <TouchableOpacity>
                         <View style={styles.button}>
-                            <Text style={styles.buttonText}>Entrar</Text>
+                            <Text style={styles.buttonText}>
+                                {this.state.stageNew ? 'Registrar' : 'Entrar'}
+                            </Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -55,6 +74,13 @@ const styles = StyleSheet.create({
         fontSize: 70,
         marginBottom: 10
     },
+    subTitle: {
+        fontFamily: commonStyles.fontFamily,
+        color: '#FFF',
+        fontSize: 20,
+        textAlign: 'center',
+        marginBottom: 10,
+    },  
     formContainer: {
         backgroundColor: 'rgba(0, 0, 0, 0.8)',
         padding: 20,
